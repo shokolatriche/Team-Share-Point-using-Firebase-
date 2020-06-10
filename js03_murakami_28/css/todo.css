@@ -1,0 +1,123 @@
+body {
+  background: -moz-linear-gradient(top, rgb(195, 233, 250), #fff);
+  background: -webkit-linear-gradient(top, rgb(195, 233, 250), #fff);
+  background: linear-gradient(to bottom, rgb(195, 233, 250), #fff);
+}
+#date {
+  margin: 2%;
+  width: 250px;
+  font-size: 80%;
+  background-color: #e1efff;
+  box-shadow: 3px 3px 3px 3px #555;
+  color: #999;
+  position: relative;
+  padding: 0 10px;
+  width: 200px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #999;
+}
+#username {
+  margin: 1% 2%;
+  width: 250px;
+  font-size: 80%;
+  background-color: #e1efff;
+  box-shadow: 3px 3px 3px 3px #555;
+  padding: 0 10px;
+  width: 200px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+#text {
+  margin: 2%;
+  width: 95%;
+  height: 100px;
+  font-size: 80%;
+  box-shadow: 3px 3px 3px 3px #555;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+#send {
+  margin: 1% 2%;
+  width: 60px;
+  padding: 5px;
+  font-size: 80%;
+  background: #668ad8; /*ボタン色*/
+  color: #fff;
+  border-bottom: solid 4px #627295;
+  border-radius: 3px;
+}
+#update {
+  margin: 1% 2%;
+  width: 60px;
+  padding: 5px;
+  font-size: 80%;
+  background: #668ad8; /*ボタン色*/
+  color: #fff;
+  border-bottom: solid 4px #627295;
+  border-radius: 3px;
+}
+#Delete {
+  margin: 1% 2%;
+  width: 60px;
+  padding: 5px;
+  font-size: 80%;
+  background: #668ad8; /*ボタン色*/
+  color: #fff;
+  border-bottom: solid 4px #627295;
+  border-radius: 3px;
+}
+#output {
+  white-space: pre-wrap;
+}
+/* 入力欄の改行をテーブルにも反映 */
+/* http://www.phenomena.co.jp/blog/2020/01/07/textarea%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%97%E3%81%9F%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%81%AE%E6%94%B9%E8%A1%8C%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95%EF%BC%88n/ */
+
+table {
+  margin: 0% 2%;
+  border: 1px solid transparent;
+  width: 95%;
+  height: 50px;
+  color: black;
+  text-align: left;
+  box-sizing: border-box;
+  border-spacing: 0;
+  padding: 2px;
+}
+
+table th {
+  width: 10%;
+  font-size: 80%;
+  background-color: #d0e7fc;
+  border: 1px solid #627295;
+  color: black;
+  border-spacing: 0;
+  padding: 2px;
+}
+
+table td.username {
+  width: 10%;
+  font-size: 80%;
+  background-color: rgb(241, 239, 239);
+  border: 1px solid #627295;
+  border-spacing: 0;
+  padding: 2px;
+}
+table td.text {
+  width: 80%;
+  font-size: 80%;
+  background-color: rgb(241, 239, 239);
+  border: 1px solid #627295;
+  border-spacing: 0;
+  padding: 2px;
+}

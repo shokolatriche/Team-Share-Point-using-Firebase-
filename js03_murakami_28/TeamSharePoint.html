@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>TeamSharePoint</title>
+    <link rel="stylesheet" href="css/todo.css" />
+    <style>
+      /* この中にcssをかけます */
+    </style>
+  </head>
+
+  <body>
+    <!-- ブラウザの画面に見える内容 -->
+    <div>
+      <!-- 日付 -->
+      <input type="date" id="date" placeholder="Date" />
+
+      <!-- 名前 -->
+      <input type="text" id="username" placeholder="Author" />
+    </div>
+
+    <div>
+      <!-- テキストエリア -->
+      <textarea
+        name=""
+        id="text"
+        cols="30"
+        rows="10"
+        wrap="hard"
+        placeholder="Please enter handovers here"
+      ></textarea>
+    </div>
+
+    <div>
+      <!-- 送信ボタン -->
+      <button id="send">Send</button>
+      <!-- 更新ボタン -->
+      <button id="update">Update</button>
+      <!-- 削除ボタン -->
+      <button id="Delete">Delete</button>
+    </div>
+
+    <div>
+      <!-- 保存されたデータが表示される箇所 -->
+      <!-- <div id="output" contenteditable="true"></div> -->
+      <table id="output"></table>
+    </div>
+    <!--/ ブラウザの画面に見える内容 -->
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!--** 以下Firebase **-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <!-- ここにfirebaseのscriptを貼り付ける & -appを削除-->
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase.js"></script>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyCCL8qei8vz0UodYEENwQe7_2tFzW94EcY",
+        authDomain: "todolist-90f23.firebaseapp.com",
+        databaseURL: "https://todolist-90f23.firebaseio.com",
+        projectId: "todolist-90f23",
+        storageBucket: "todolist-90f23.appspot.com",
+        messagingSenderId: "617897036801",
+        appId: "1:617897036801:web:663ad3a3481d927c3ac400",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      //firebaseのデーターベース（保存させる場所）を使いますよと言うjsのコードを貼り付ける
+      const newPostRef = firebase.database().ref();
+
+      // ここから下にjqueryの処理
+
+      //送信ボタンをクリックされたら次の処理をする
+      $("#send").on("click", function () {
+        //データを登録で送る
+        //push設定;
+        newPostRef.push({
+          date: $("#date").val(), //日付
+          username: $("#username").val(), //名前
+          text: $("#text").val(), //テキストエリア
+        });
+
+        // 文字を空にする
+        $("#date").val("");
+        $("#text").val("");
+        $("#username").val("");
+
+        //空欄アラート
+        // if ($("#date").val() == "") {
+        //   alert("日付を入力してください");
+        //   $(this).focus();
+        //   return false;
+        // }
+        // if ($("#username").val() == "") {
+        //   alert("名前を入力してください");
+        //   return false;
+        // }
+        // if ($("#text").val() == "") {
+        //   alert("内容を入力してください");
+        //   return false;
+        // }
+
+        //送信アラートを表示
+        alert("送信完了。お疲れ様でした！");
+      });
+
+      var key_id;
+
+      // 受信処理
+      newPostRef.on("child_added", function (data) {
+        //ここに保存されたデータが全て入ってくる
+        // function (data)のdataにfirebaseのデータが入ってくる
+        let v = data.val();
+        key_id = data.key;
+
+        console.log(key_id, "key"); //これが固有のIDになるのでこれを元に更新をする
+        console.log(v, "受信"); //vの変数に入っているオブジェクトを全てみる
+
+        // ここが最初tableタグも含んでましたが、それするとおかしくなるので、追加したいのは<tr>タグからになります🙋‍♀️OK!
+        let str = `<tr class=${key_id}>
+            <th class=date contenteditable="true">${v.date}</th>
+            <td class=username contenteditable="true">${v.username}</td>
+            <td class=text contenteditable="true">${v.text}</td>
+          </tr>`;
+        // ここでデータをhtmlに埋め込む
+        $("#output").append(str);
+      });
+
+      // 更新処理
+      // 空っぽの変数を用意
+      let up_date;
+      let up_username;
+      let up_text;
+      let id;
+
+      $("#update").on("click", function () {
+        // ここで親のkeyを更新するためにセット 親=受信処理のkey_id
+        // 全てのtrに対して実行をする繰り返し処理をeach
+        $("tr").each(function (index) {
+          console.log(index, "iind");
+          var tr = $(this).attr("class");
+          // attrメソッド：HTML要素の属性の値を取得、変更する際に使用
+
+          id = firebase.database().ref(tr);
+          console.log(id);
+
+          up_date = $(this).children(".date").text();
+          up_username = $(this).children(".username").text();
+          up_text = $(this).children(".text").text();
+
+          // //変数に入ってくるものをセット
+          id.update({
+            date: up_date,
+            username: up_username,
+            text: up_text,
+          });
+        });
+
+        // ページを強制リロードの裏技(ちょっと違う書き方ありますが、今回は取り急ぎ)
+        location.href = "";
+        //更新アラートを表示
+        alert("更新しました");
+      });
+
+      // 削除処理　（全削除）
+      $("#Delete").on("click", function () {
+        newPostRef.remove(); //realtime databaseから消える
+        $("#output").remove(); //テーブルから消える
+        alert("削除しました");
+      });
+    </script>
+  </body>
+</html>
